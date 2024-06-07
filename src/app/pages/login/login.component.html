@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <form [formGroup]="loginForm" class="col-6">
+            <h2>Iniciar sesión</h2>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" formControlName="email" name="email" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="clave">Clave</label>
+                <input type="password" class="form-control" formControlName="clave" name="clave" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary" (click)="onLogin()">Iniciar sesión</button>
+                <button class="btn btn-primary" (click)="goRegister()">Registrarse</button>
+            </div>
+        </form>
+    </div>
+</div>

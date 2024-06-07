@@ -1,0 +1,111 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h2>Home</h2>
+            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Nueva tarea
+            </button>
+
+            <nav class="navbar navbar-expand bg-body-tertiary">
+                <div [formGroup]="searchForm" class="d-flex container-fluid">
+                    <div class="col-5">
+                        <label for="titulo">Titulo</label>
+                        <input class="form-control" type="text" formControlName="titulo" placeholder="Buscar">
+                    </div>
+                    <div class="col-2" style="display: flex; flex-direction: column;">
+                        <label>Ordenar</label>
+                        <button class="btn btn-secondary" (click)="toggleOrder()"> {{ searchForm.value.ordenar }} </button>
+                    </div>
+                    <div class="col-3">
+                        <label for="prioridad">Prioridad</label>
+                        <select class="form-control" formControlName="prioridad">
+                            <option value="0">Todas</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-outline-success" (click)="searchTareas()">Buscar</button>
+                </div>
+            </nav>
+
+
+            @for (tarea of data; track tarea.idtarea) {
+            @if (tarea.prioridad === 'Alta') {
+            <div class="card mb-3" style="background-color: #F78181;"
+                (click)="finishTarea(tarea.idtarea, tarea.titulo)">
+                <div class="card-body">
+                    <h5 class="card-title">{{ tarea.titulo }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        {{ dayjs(tarea.fecha_creacion).format('DD/MM/YYYY HH:mm') }}
+                    </h6>
+                    <p class="card-text">{{ tarea.descripcion }}</p>
+                </div>
+            </div>
+            } @else if (tarea.prioridad === 'Media') {
+            <div class="card mb-3" style="background-color: #F2F5A9;"
+                (click)="finishTarea(tarea.idtarea, tarea.titulo)">
+                <div class="card-body">
+                    <h5 class="card-title">{{ tarea.titulo }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        {{ dayjs(tarea.fecha_creacion).format('DD/MM/YYYY HH:mm') }}
+                    </h6>
+                    <p class="card-text">{{ tarea.descripcion }}</p>
+                </div>
+            </div>
+            } @else {
+            <div class="card mb-3" style="background-color: #BCF5A9;"
+                (click)="finishTarea(tarea.idtarea, tarea.titulo)">
+                <div class="card-body">
+                    <h5 class="card-title">{{ tarea.titulo }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        {{ dayjs(tarea.fecha_creacion).format('DD/MM/YYYY HH:mm') }}
+                    </h6>
+                    <p class="card-text">{{ tarea.descripcion }}</p>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Crear tarea</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="tareaForm">
+                    <div class="mb-3">
+                        <label for="titulo">Título</label>
+                        <input type="text" class="form-control" formControlName="titulo" name="titulo"
+                            autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion">Descripción</label>
+                        <input type="text" class="form-control" formControlName="descripcion" name="descripcion"
+                            autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="prioridad">Prioridad</label>
+                        <select formControlName="prioridad" class="form-control">
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button #closeMdl type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="insertTarea()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
